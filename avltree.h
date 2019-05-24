@@ -21,6 +21,8 @@ typedef struct avl_tree
 #define HEIGHT(p)              ((p == NULL) ? -1 : (((avl_node_t *)(p))->height))
 #define MAX(a, b)              ((a) > (b) ? (a) : (b))
 
+int avltree_node_number(avl_tree_t tree);
+int avltree_leaf_number(avl_tree_t tree);
 int avltree_height(avl_tree_t tree);
 void avltree_traverse_preorder(avl_tree_t tree);
 void avltree_traverse_inorder(avl_tree_t tree);
@@ -32,7 +34,6 @@ avl_node_t* avltree_insert(avl_tree_t tree, avl_type_t key);
 avl_node_t* avltree_delete(avl_tree_t tree, avl_type_t key);
 void avltree_destory(avl_tree_t tree);
 void avltree_show(avl_tree_t tree, avl_type_t key, int direction);
-
 
 #endif
 

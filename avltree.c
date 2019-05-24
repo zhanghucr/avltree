@@ -4,6 +4,42 @@
  
 #include "avltree.h"
 
+int avltree_node_number(avl_tree_t tree)
+{
+    int    num_l = 0;
+    int    num_r = 0;
+    
+    if (tree == NULL)  //递归出口
+    {
+        return 0;
+    }
+
+    num_l = avltree_node_number(tree->left);
+    num_r = avltree_node_number(tree->right);
+    return (num_l + num_r + 1);
+}
+
+/* 获取叶子节点数量 */
+int avltree_leaf_number(avl_tree_t tree)
+{
+    int    num_l = 0;
+    int    num_r = 0;
+    
+    if (tree == NULL)
+    {
+        return 0;
+    }
+    
+    if (tree->left == NULL && tree->right == NULL)
+    {
+        return 1;
+    }
+    
+    num_l = avltree_leaf_number(tree->left);   //左子树中叶节点的个数
+    num_r = avltree_leaf_number(tree->right);  //右子树中叶节点的个数
+    return (num_l + num_r);
+}
+
 /*
  * 获取AVL树的高度
  */
@@ -232,7 +268,7 @@ avl_node_t* avltree_insert(avl_tree_t tree, avl_type_t key)
             return NULL;
         }
     }
-    else if (key < tree->key) // 应该将key插入到"tree的左子树"的情况
+    else if (key < tree->key)  // 应该将key插入到"tree的左子树"的情况
     {
         tree->left = avltree_insert(tree->left, key);
 
@@ -249,7 +285,7 @@ avl_node_t* avltree_insert(avl_tree_t tree, avl_type_t key)
             }
         }
     }
-    else if (key > tree->key) // 应该将key插入到"tree的右子树"的情况
+    else if (key > tree->key)  // 应该将key插入到"tree的右子树"的情况
     {
         tree->right = avltree_insert(tree->right, key);
 
@@ -351,7 +387,7 @@ static avl_node_t* avltree_delete_node(avl_tree_t tree, avl_node_t *z)
                 //   (03)删除该最小节点。
                 // 这类似于用"tree的右子树中最小节点"做"tree"的替身；
                 // 采用这种方式的好处是：删除"tree的右子树中最小节点"之后，AVL树仍然是平衡的。
-                avl_node_t *min = avltree_maximum(tree->right);
+                avl_node_t *min = avltree_minimum(tree->right);
                 tree->key = min->key;
                 tree->right = avltree_delete_node(tree->right, min);
             }
@@ -428,6 +464,8 @@ void avltree_show(avl_tree_t tree, avl_type_t key, int direction)
         {
             printf("----------------------------------\n");
             printf("tree height: %d\n", avltree_height(tree));
+            printf("tree nodes : %d\n", avltree_node_number(tree));
+            printf("leaf nodes : %d\n", avltree_leaf_number(tree));
             printf("----------------------------------\n");
             printf("(%2d) root\n", key);
         }
