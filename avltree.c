@@ -426,6 +426,9 @@ void avltree_show(avl_tree_t tree, avl_type_t key, int direction)
     {
         if (direction == DIRECTION_ROOT)    // tree是根节点
         {
+            printf("----------------------------------\n");
+            printf("tree height: %d\n", avltree_height(tree));
+            printf("----------------------------------\n");
             printf("(%2d) root\n", key);
         }
         else if (direction == DIRECTION_RIGHT)
